@@ -1,11 +1,6 @@
-<template>    
-    <div class="content-list">
-      <draggable v-model="items" @start="drag=true" @end="drag=false">
-        <ul v-for='item in items' :key='item.title'>
-          <li>{{ item.title }}</li>
-        </ul>
-      </draggable>
-      <footer v-if="!$isMobile()">
+<template>
+    <div>
+        <footer v-if="!$isMobile()">
         <p>5 items left</p>
         <div class="filter">
           <p class="isActive-filter">All</p>
@@ -34,20 +29,13 @@
         </div>
       </div>
     </div>
+   
 </template>
 
 <script>
-import draggable from 'vuedraggable'
 
 export default {
-  name: 'TodoList',
-  components: {
-    draggable,
-    
-  },
-  props: {
-    items: Array
-  },
+  name: 'Toolbar',
   data () {
     return {
       
@@ -61,38 +49,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .content-list{
-    width: 26rem;
-    height: 20rem;
-    background-color: white;
-    border-radius: 5px;
-  }
-  ul{
-    list-style: none;
-    font-size: 14px;
-    list-style-position: inside;
-  }
-  
-  ul li{
-    border-bottom: 1px solid;
-    border-color: var(--light-grayish-blue-light);
-    height: 2.9rem;
-    padding-top: 15px;
-    padding-left: 5px;
-    color: var(--dark-grayish-blue);
-    font-weight: 500;
-  }
-
-  /* ul li::marker{
-    font-size: 4rem;
-  } */
-  li::before {
-    content: "O";
-    color: var(--light-grayish-blue-light);
-    padding-inline: 1ch;
-    margin-inline-end: 1ch;
-  }
-
   footer{
     font-size: 12px;
     display: flex;
@@ -127,12 +83,6 @@ export default {
     gap: 1rem;
     justify-content: center;
     padding-top: 15px;
-  }
-
-   @media only screen and (max-width: 376px) {
-    .content-list{
-      width: 20rem;
-    }
   }
 
 </style>

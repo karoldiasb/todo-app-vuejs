@@ -3,13 +3,17 @@
     <div :class="$isMobile() ? 'container bg-mobile' : 'container bg-desktop'">
       <header>
         <h1>TODO</h1>
-        <img :src="icon" alt="moon" @click="changeTheme">
+        <img :src="icon" alt="iconTheme" @click="changeTheme">
       </header>
       
       <div class="content">
         <CreateTodo/>
-        <TodoList/>
+        <TodoList :items=items></TodoList>
       </div>
+
+      <footer>
+        Drag and drop to reorder list
+      </footer>
     </div>
   </div>
 </template>
@@ -21,14 +25,21 @@
   export default {
     name: 'App',
     components: {
-      TodoList,
-      CreateTodo
+      CreateTodo,
+      TodoList
     },
     data(){
         return {
           icon: require('@/assets/icon-moon.svg'),
           isThemeLight: true,
-          bg: this.$isMobile() ? require('@/assets/bg-mobile-light.jpg') : require('@/assets/bg-desktop-light.jpg')
+          items: [
+            { id: 0, title: 'Complete online JavaScript course' },
+            { id: 1, title: 'Jag around the park 3x' },
+            { id: 2, title: '10 minutes meditation' },
+            { id: 3, title: 'Read for 1 hour' },
+            { id: 4, title: 'Pick up groceries' },
+            { id: 5, title: 'Complete Todo App on Frontend Mentor' }
+          ]
       }
     },
     methods:{
@@ -56,7 +67,7 @@
     /* Light Theme */
     --very-light-gray: hsl(0, 0%, 98%);
     --very-light-grayish-blue: hsl(236, 33%, 92%);
-    --light-grayish-blue: hsl(233, 11%, 84%);
+    --light-grayish-blue-light: hsl(233, 11%, 84%);
     --dark-grayish-blue: hsl(236, 9%, 61%);
     --very-dark-grayish-blue: hsl(235, 19%, 35%);
     /* Dark Theme */
@@ -92,7 +103,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    top: 80px;
+    top: 60px;
   }
   
   .bg-desktop{
@@ -103,16 +114,18 @@
   }
 
   .bg-desktop header{
-    gap: 16rem;
+    gap: 15rem;
   }
 
   .bg-mobile header{
     gap: 8rem;
   }
+
   header h1{
     letter-spacing: 1rem;
     color: white;
   }
+
   header img{
     cursor: pointer;
   }
@@ -123,13 +136,28 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    top: 120px;
+    top: 90px;
     gap: 1rem;
   }
 
   .isActive-filter{
     color: var(--bright-blue);
   }
+
+  .container > footer{
+    position: relative;
+    top: 8rem;
+    text-align: center;
+    font-size: 12px;
+    justify-self: center;
+  }
+
+  @media only screen and (max-width: 376px) {
+    .container > footer{
+      top: 11.5rem;
+    }
+  }
+
   
 
 </style>
