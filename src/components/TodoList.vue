@@ -1,39 +1,9 @@
 <template>    
-    <div class="content-list">
-      <draggable v-model="items" @start="drag=true" @end="drag=false">
-        <ul v-for='item in items' :key='item.title'>
-          <li>{{ item.title }}</li>
-        </ul>
-      </draggable>
-      <footer v-if="!$isMobile()">
-        <p>5 items left</p>
-        <div class="filter">
-          <p class="isActive-filter">All</p>
-          <p>Active</p>
-          <p>Completed</p>
-        </div>
-        <div class="clear-completed">
-          <p>Clear</p>
-          <p>Completed</p>
-        </div>
-      </footer>
-      <footer v-else>
-        <p>5 items left</p>
-        <div class="clear-completed">
-          <p>Clear</p>
-          <p>Completed</p>
-        </div>
-      </footer>
-      <div v-show="$isMobile()">
-        <div class="container-filter">
-          <div class="filter">
-            <p class="isActive-filter">All</p>
-            <p>Active</p>
-            <p>Completed</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <draggable v-model="filteredItems" @start="drag=true" @end="drag=false">
+      <ul v-for='item in filteredItems' :key='item.title' :style="isThemeLight ? styleLight : styleDark">
+        <li>{{ item.title }}</li>
+      </ul>
+    </draggable>
 </template>
 
 <script>
@@ -46,27 +16,37 @@ export default {
     
   },
   props: {
-    items: Array
+    items: Array,
+    isThemeLight: Boolean,
+    isFilterAll: Boolean,
+    isfilterActive: Boolean,
+    isfilterCompleted: Boolean
   },
   data () {
     return {
-      
+      styleLight: { color: 'hsl(233, 14%, 35%)' },
+      styleDark: { color: 'hsl(236, 33%, 92%)' },
     }
   },
   methods:{
     
+  },
+  computed: {
+    filteredItems() { //filtrar todos os itens de acordo com a seleção
+      if(this.isfilterActive)
+        return this.items.filter(item => item.isActive)
+      if(this.isfilterCompleted)
+        return this.items.filter(item => item.isfilterCompleted)
+      return this.items
+
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .content-list{
-    width: 26rem;
-    height: 20rem;
-    background-color: white;
-    border-radius: 5px;
-  }
+  
   ul{
     list-style: none;
     font-size: 14px;
@@ -79,13 +59,9 @@ export default {
     height: 2.9rem;
     padding-top: 15px;
     padding-left: 5px;
-    color: var(--dark-grayish-blue);
+    /* color: var(--dark-grayish-blue); */
     font-weight: 500;
   }
-
-  /* ul li::marker{
-    font-size: 4rem;
-  } */
   li::before {
     content: "O";
     color: var(--light-grayish-blue-light);

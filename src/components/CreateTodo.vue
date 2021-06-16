@@ -1,12 +1,32 @@
 <template>
-    <input type="text" name="newtodo" id="newtodo" placeholder="   O Create a new todo...">
+    <input 
+        type="text" 
+        name="newtodo" 
+        id="newtodo" 
+        placeholder="   O Create a new todo..." 
+        @keypress="enter"
+        :style="isThemeLight ? styleLight : styleDark"
+    >
 </template>
 
 <script>
 export default {
   name: 'CreateTodo',
   props: {
-    
+    isThemeLight: Boolean
+  },
+  data () {
+    return {
+        styleLight: { backgroundColor: 'hsl(0, 0%, 98%)' },
+        styleDark: { backgroundColor: 'hsl(235, 24%, 19%)' },
+    }
+  },
+  methods:{
+      enter(){
+          if(event.keyCode == 13){
+              alert('entrou novo')
+          }
+      }
   }
 }
 </script>
