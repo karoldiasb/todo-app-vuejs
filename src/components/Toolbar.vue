@@ -1,11 +1,23 @@
 <template>
     <div>
       <footer v-if="!$isMobile()">
-      <p>5 items left</p>
+      <p>{{countList}} items left</p>
       <div class="filter">
-        <p ref="filterAll" :class="isFilterAll ? 'isActive-filter' : ''">All</p>
-        <p ref="filterActive" :class="isfilterActive ? 'isActive-filter' : ''">Active</p>
-        <p ref="filterCompleted" :class="isfilterCompleted ? 'isActive-filter' : ''">Completed</p>
+        <p 
+          :class="this.$store.state.isFilterAll ? 'isActive-filter' : ''" 
+          @click="changeFilter('all')"
+        >All
+        </p>
+        <p 
+          :class="this.$store.state.isfilterActive ? 'isActive-filter' : ''" 
+          @click="changeFilter('active')"
+        >Active
+        </p>
+        <p 
+          :class="this.$store.state.isfilterCompleted ? 'isActive-filter' : ''" 
+          @click="changeFilter('completed')"
+        >Completed
+        </p>
       </div>
       <div class="clear-completed">
         <p>Clear</p>
@@ -13,18 +25,30 @@
       </div>
     </footer>
     <footer v-else>
-      <p>5 items left</p>
+      <p>{{countList}} items left</p>
       <div class="clear-completed">
         <p>Clear</p>
         <p>Completed</p>
       </div>
     </footer>
     <div v-show="$isMobile()">
-      <div class="container-filter" :style="isThemeLight ? styleLight : styleDark">
+      <div class="container-filter" :style="this.$store.state.isThemeLight ? styleLight : styleDark">
         <div class="filter">
-          <p class="isActive-filter">All</p>
-          <p>Active</p>
-          <p>Completed</p>
+          <p 
+          :class="this.$store.state.isFilterAll ? 'isActive-filter' : ''" 
+          @click="changeFilter('all')"
+          >All
+          </p>
+          <p 
+            :class="this.$store.state.isfilterActive ? 'isActive-filter' : ''" 
+            @click="changeFilter('active')"
+          >Active
+          </p>
+          <p 
+            :class="this.$store.state.isfilterCompleted ? 'isActive-filter' : ''" 
+            @click="changeFilter('completed')"
+          >Completed
+          </p>
         </div>
       </div>
     </div>
@@ -37,19 +61,27 @@
 export default {
   name: 'Toolbar',
   props: {
-    isThemeLight: Boolean,
-    isFilterAll: Boolean,
-    isfilterActive: Boolean,
-    isfilterCompleted: Boolean
   },
   data () {
     return {
       styleLight: { backgroundColor: 'hsl(0, 0%, 98%)', color: 'hsl(236, 9%, 61%)' },
-      styleDark: { backgroundColor: 'hsl(235, 24%, 19%)', color: 'hsl(233, 11%, 84%)' }
+      styleDark: { backgroundColor: 'hsl(235, 24%, 19%)', color: 'hsl(233, 11%, 84%)' },
+      countList: 5
     }
   },
   methods:{
-   
+   changeFilter(filter) {
+      this.$store.commit('resetAllFilters')
+      if(filter == 'all'){
+        this.$store.state.isFilterAll = true;
+      }
+      if(filter == 'active'){
+        this.$store.state.isfilterActive = true;
+      }
+      if(filter == 'completed'){
+        this.$store.state.isfilterCompleted = true;
+      }
+    }
   },
 }
 </script>

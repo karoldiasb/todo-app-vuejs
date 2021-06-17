@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :style="isThemeLight ? styleLight : styleDark">
+  <div id="app" :style="this.$store.state.isThemeLight ? styleLight : styleDark">
     <div 
       :class="!$isMobile() ? 'container bg-desktop' : 'container bg-mobile'"
       :style="!$isMobile() ? { 'backgroundImage': 'url(\'' + backgroundImageDesktop + '\')' } : { 'backgroundImage': 'url(\'' + backgroundImageMobile + '\')' }"
@@ -10,15 +10,15 @@
       </header>
       
       <div class="content">
-        <CreateTodo :isThemeLight=isThemeLight></CreateTodo>
+        <CreateTodo/>
 
-        <div class="content-list" :style="isThemeLight ? contentListLight : contentListDark">
-          <TodoList :items=items :isThemeLight=isThemeLight :isFilterAll="isFilterAll" :isfilterActive="isfilterActive" :isfilterCompleted="isfilterCompleted"></TodoList>
-          <Toolbar :isThemeLight=isThemeLight :isFilterAll="isFilterAll" :isfilterActive="isfilterActive" :isfilterCompleted="isfilterCompleted"> </Toolbar>
+        <div class="content-list" :style="this.$store.state.isThemeLight ? contentListLight : contentListDark">
+          <TodoList/>
+          <Toolbar/>
         </div>
       </div>
 
-      <footer :style="isThemeLight ? {color: 'hsl(236, 9%, 61%)'} : {color: 'hsl(233, 11%, 84%)'}">
+      <footer :style="this.$store.state.isThemeLight ? {color: 'hsl(236, 9%, 61%)'} : {color: 'hsl(233, 11%, 84%)'}">
         Drag and drop to reorder list
       </footer>
     </div>
@@ -45,29 +45,17 @@
           contentListDark: { backgroundColor: 'hsl(235, 24%, 19%)' },
           backgroundImageDesktop: require('@/assets/bg-desktop-light.jpg'),
           backgroundImageMobile: require('@/assets/bg-mobile-light.jpg'),
-          icon: require('@/assets/icon-moon.svg'),
-          isThemeLight: true,
-          items: [
-            { id: 0, title: 'Complete online JavaScript course', isActive: true, isCompleted: false },
-            { id: 1, title: 'Jag around the park 3x', isActive: true, isCompleted: true },
-            { id: 2, title: '10 minutes meditation', isActive: true, isCompleted: true },
-            { id: 3, title: 'Read for 1 hour', isActive: true, isCompleted: false },
-            { id: 4, title: 'Pick up groceries', isActive: true, isCompleted: false },
-            { id: 5, title: 'Complete Todo App on Frontend Mentor', isActive: true }
-          ],
-          isFilterAll: false,
-          isfilterActive: true,
-          isfilterCompleted: false
+          icon: require('@/assets/icon-moon.svg')
       }
     },
     methods:{
       changeTheme(){
-        if(this.isThemeLight){
-          this.isThemeLight = false
+        if(this.$store.state.isThemeLight){
+          this.$store.state.isThemeLight = false
           this.icon = require('@/assets/icon-sun.svg')
           return
         }
-        this.isThemeLight = true
+        this.$store.state.isThemeLight = true
         this.icon = require('@/assets/icon-moon.svg')
       }
     }

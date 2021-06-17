@@ -9,36 +9,33 @@
 <script>
 import draggable from 'vuedraggable'
 
+
 export default {
   name: 'TodoList',
   components: {
     draggable,
-    
   },
   props: {
-    items: Array,
-    isThemeLight: Boolean,
-    isFilterAll: Boolean,
-    isfilterActive: Boolean,
-    isfilterCompleted: Boolean
   },
   data () {
     return {
       styleLight: { color: 'hsl(233, 14%, 35%)' },
       styleDark: { color: 'hsl(236, 33%, 92%)' },
+      isThemeLight: this.$store.state.isThemeLight,
     }
   },
   methods:{
-    
   },
   computed: {
-    filteredItems() { //filtrar todos os itens de acordo com a seleção
-      if(this.isfilterActive)
-        return this.items.filter(item => item.isActive)
-      if(this.isfilterCompleted)
-        return this.items.filter(item => item.isfilterCompleted)
-      return this.items
-
+    filteredItems: { //filtrar todos os itens de acordo com a seleção
+      get(){
+        if(this.$store.state.isfilterActive)
+          return this.$store.state.items.filter(item => item.isActive)
+        if(this.$store.state.isfilterCompleted)
+          return this.$store.state.items.filter(item => item.isCompleted)
+        return this.$store.state.items
+      },
+      set(){}
     }
   }
 }

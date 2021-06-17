@@ -5,7 +5,7 @@
         id="newtodo" 
         placeholder="   O Create a new todo..." 
         @keypress="enter"
-        :style="isThemeLight ? styleLight : styleDark"
+        :style="this.$store.state.isThemeLight ? styleLight : styleDark"
     >
 </template>
 
@@ -13,7 +13,6 @@
 export default {
   name: 'CreateTodo',
   props: {
-    isThemeLight: Boolean
   },
   data () {
     return {
